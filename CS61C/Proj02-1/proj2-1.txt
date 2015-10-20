@@ -1,0 +1,16 @@
+Partner 1 Name: Jimmy Cheung
+Partner 1 Login: cs61c-akw
+
+Partner 2 Name: Christopher Chen
+Partner 2 Login: cs61c-abo
+
+1. Since there are so many more solutions per level compared to the single solution puzzle, the runtime and memory usage can get extremely large with this method. In addition, in a theoretical 4x4, putting a 1 in the top left and writing custom code to permute the other 14 values plus one empty space will result in 15 factorial different permutations, which is a huge number. In the 2x2 example, there are 6 permutations for the solution set. Each of those would need to be permuted another 4 factorial times (=24). The runtime and memory usage gets quite large already.
+
+
+
+2. A possible solution would be to start from the given board instead of the solution and permute until it satisfies solution parameters (find the first board that can be considered a solution and then stop).
+3) Instead of distance to solution, we can store number of pegs left on the board. Permute combinations of 
+
+
+
+3. Instead of distance to solution, we can store number of pegs left on the board. Permute combinations of moves, eliminating dead-end boards as it goes (for example, any board that has more than 1 peg left and at least 1 peg with no adjacent pegs). This would decrease memory required since many boards would be eliminated through solving it.

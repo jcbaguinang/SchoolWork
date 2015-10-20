@@ -1,0 +1,143 @@
+                                     GRADER
+
+Name of student running submit:Jimmy Cheung
+Login of student running submit: cs61b-awt	
+
+Second team member's name: Christopher Chen
+Second team member's login:cs61b-hl
+
+Third team member's name (if any):N/A
+Third team member's login:N/A
+
+IMPORTANT:  Once you've submitted Project 2 once, the same team member should
+submit always.  If a different teammate must submit, inform cs61b@cory.eecs of
+all the details.  Include a complete list of team members, and let us know
+which submission you want graded.
+
+If you've submitted your project once, or even written a substantial amount of
+code together, you may not change partners without the permission of the
+instructor.
+===============================================================================
+Does your program compile without errors?
+Yes, the project compiles fine.
+
+
+Have you tested your program on the 61B lab machines?
+Yes, the project has been tested on lab machines.
+
+
+Did you successfully implement game tree search?  Did you successfully
+implement alpha-beta pruning?  Are there any limitations on it?  What is the
+default number of search levels set by the one-parameter MachinePlayer
+constructor (or is it a variable-depth search)?
+Game tree search and alpha-beta pruning have both been successfully implemented. The default number of search levels is 2 for Add moves and 2 for Step moves.
+
+
+Describe your board evaluation function in some detail.
+Our board evaluation function takes into account the number of goal pieces and the number of connections relative to the opponent, and returns a score based off of the number of goal pieces (as a flat amount) and an integer multiplied by the proportion of connections relative to the total number of connections.
+
+
+Does your MachinePlayer use any special method of choosing the first few moves?
+Yes, our MachinePlayer always places the first piece at (4, 4), assuming it is a valid move, and uses the evaluation function to choose the rest of the moves.
+
+Is there anything else the graders should know to help them read your project?
+(Took wayyy longer and more last second because partner's external hard drive got wiped out by a magnet on the way back from spring break. Had to re-code hasNetwork.)
+
+
+Describe the classes, modules, and interfaces you designed before and while you
+implemented the project.  Your description should include:
+  -  A list of the classes your program uses.
+  -  A list of each of the "modules" used in or by MachinePlayer, similar to
+     the list in the "Teamwork" section of the README (but hopefully more
+     detailed).  (If you're using a list class, that should probably count as
+     a separate module.)
+  -  For each module, list the class(es) the module is implemented in.
+  -  For each module, say which of your team members implemented it.
+  -  For each module, describe its interface--specifically, the prototype and
+     behavior of each method that is available for external callers (outside
+     the module) to call.  Don't include methods that are only meant to be
+     called from within the module.
+
+     For each method, provide (1) a method prototype and (2) a complete,
+     unambiguous description of the behavior of the method/module.  This
+     description should also appear before the method in your code's comments.
+
+You will probably need to change some of your design decisions as you go; be
+sure to modify this file to reflect these changes before you submit your
+project.  Your design of classes and interfaces will be worth 10% of your
+grade.
+
+
+
+
+Classes Program will use:
+-Gameboard
+-MachinePlayer
+-Best
+-Coord
+(more will be detailed in modules).
+
+Modules:
+Gameboard: This will be under the game board class, and will simply create a new game board object that can be updated with the addPiece and movePiece methods:
+methods for game board:
+	public void addPiece(Move move, int player):
+		addPiece takes in a move Object and a integer (either 0 or 1 to determine whose move it is) and assigns a piece to the coordinates of the move.
+@param: Move move, int player
+@return: addPiece does not return anything.
+	public void movePiece(Move move, int player):
+		movePiece takes in a move Object and a integer (either 0 or 1 to determine whose move it is) and assigns a piece to the coordinates of the move. This move will do the exact same thing as add piece (including the referee check), except that it will be moving the piece away, thus removing the piece from the old location and assigning it to the new location.
+@param: Move move, int player - the move done and the player that has done the move.
+@return: movePiece does not return anything.
+  public int numPieces():
+  This simple returns the number of pieces on the board.
+  @return: int number of pieces.
+
+gametreeSearch: This will also be under the game board class. gametreeSearch is a function that iterates through all possible boards of a depth given as a parameter and uses two other module, evalWin and hasWin, to determine which move it should do next. (Note: gametreeSearch edits the original board and undos the action to search through.)
+@param: int depth - the depth of the search., int player (the player), int alpha, and int beta - these are used specifically for alpha-beta pruning, int machinePlayer and int opponent - these are given to tell what colors each player is.
+@return: a Best object that reflects the best possible move and its complementary score.
+public Best gametreeSearch(int depth, int player, int alpha, int beta)
+	
+	Best (Under gametreeSearch): this is a class under gametreeSearch. Best simply stores a move object and a double score assigned to move. It is returned by the gametreeSearch.
+	Best(Move m, int score): This constructor takes in a move, and the score corresponding to it, and stores it.
+	Best(): This constructor creates a default best move, with no move and a score of -10.0.
+
+evalWin: This will also be in the game board class, and will be used by game tree search to evaluate every scenario that is not a winning scenario after the depth has been completed.
+@param: int player - the player it is evaluating the board for.
+@return: a double score that ranks the win likeliness of the board
+public double evalWin(int player)
+
+hasNetwork: This is the second to last module in the game board class, and will be used in gametreeSearch. hasNetwork simply checks to see if a board is a network or not, and returns true or false, unless someone has made an invalid move. Then, the win is awarded to the other person.
+@param: A player parameter to see who it is finding a network for.
+@return: True or False
+public boolean hasNetwork(int player)
+
+isValidMove: This is the last module in the game board class, and simply checks whether the game is over or whether a move is valid.
+	Unusual conditions:
+		-if a move made is not a valid move, the other person is rewarded with the win.
+@param: Move object that will be checked to see if it is an invalid move.
+@return: true or false
+public boolean isValidMove(Move move, int player)
+
+Coord (Not a module, but separate): Many of these modules have private methods that use the coordinate object in some way. A coord object simply stores a x and y value, as well as a visited boolean. The boolean is largely used for backtracking in hasNetwork.
+
+MachinePlayer: This will be the machine player, in the MachinePlayer class. MachinePlayer stores am updated board and has three methods. It will try to pick the most ideal move at every turn.
+chooseMove: chooseMove uses the updated GameBoard in MachinePlayer, and calls the gametreeSearch method on the board. It then returns the move gametreeSearch chooses.
+@param: none
+@return Move that is most ideal
+public Move chooseMove()
+
+opponentMove: opponentMove takes in a move parameter and updates the gameboard. it returns true as long as the move is legal, and false otherwise.
+@param: Move m
+@return boolean legal move
+
+forceMove: does the same as opponentMove, except for the MachinePlayer itself
+@param Move m
+@return boolean legal move
+
+There are 6 total modules.
+
+
+
+
+
+

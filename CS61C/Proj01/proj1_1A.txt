@@ -1,0 +1,8 @@
+Fill in your answers here.
+
+1. The algorithm identifies the stick note fairly well, but it still incorrectly identifies small parts of the sticky note as far, and small parts of the background as close. This is due to the fact that similar features can often be found, even if they are not identical. Since the feature comparison box is so small, it will occasionally incorrectly find the closest feature. Other times, even if the corresponding right image is outside of the image area, the left feature box will still find the closest value, which may be significantly closer. In addition, maximum search range might also be a factor (as if the corresponding right pixel is outside the range, it wont work as well).
+
+2. The algorithm appears to work slightly worse. This is because the overall picture (sticky note and background) are all zoomed in, so the change in pixels between the left image and right image will be larger than before, allowing less pixels to be within the max displacement range. In addition, since the feature boxes are on a more zoomed image, the identification with feature boxes will less precise, as comparitively fewer different colors will be included when comparing with the old picture.
+
+3. The distinction between the depths appears to become worse as the feature box height is increased. This is because, as the feature box increases, the algorithm is looking at larger and larger numbers of pixels to identify the best fit. Hence, what used to be the best fit in a 1 pixel feature box (as long as one pixel is correct), is no longer the best fit, when 9 pixels need to be the best fit.
+

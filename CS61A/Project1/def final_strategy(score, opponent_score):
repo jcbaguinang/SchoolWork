@@ -1,0 +1,132 @@
+def final_strategy(score, opponent_score):
+    """Write a brief description of your final strategy.
+
+    *** make em four six_sided
+        if less do more than 6 if higher do 6
+        if four do something
+        if 6 do something ***
+    """
+    "*** YOUR CODE HERE ***"
+    
+    bacon_number = 1 + max((opponent_score//10), (opponent_score % 10))
+
+
+    if(bacon_number + score >= 100):
+        return 0
+
+    "If I close to win I play it safe."
+
+    if(score+opponent_score%7==0):
+        if score>=98:
+            return 1
+        if score>=97:
+            return 2
+        if score>=94:
+            return 3
+    else:
+        if score>=96:
+            return 1
+        if score>=94:
+            return 2
+        if score>=91:
+            return 3
+        if score>=87:
+            return 4
+   
+    if((score + bacon_number) == opponent_score//2 and opponent_score % 2 == 0):
+        return 0
+    elif((score + bacon_number)//2 == opponent_score and (score + bacon_number)%2 == 0):
+        return 5
+    elif((score + 1) == opponent_score//2 and opponent_score % 2 == 0):
+        return 10
+    elif (opponent_score)<=70 and (opponent_score-score)<30:
+        if (((score+bacon_number)+opponent_score)%7==0 and bacon_number>4):
+            return 0
+    elif (opponent_score <90 and (opponent_score-score)<20):
+        if (bacon_number >= 8):
+            return 0
+    elif (score>15):
+        if ((score+1)//2==opponent_score and (score+1)%2==0):   
+            return 2
+    elif((score + bacon_number) == (opponent_score+1)//2 and (opponent_score+1) % 2 == 0 and bacon_number>4):
+        return 0
+    elif((score + bacon_number+1)//2 == opponent_score and (score + bacon_number+1)%2 == 0):
+        return 5
+    elif((opponent_score+1)//2== (score+1) and (opponent_score +1)%2 == 0):
+        return 10
+
+
+    "If I'm behind I try to roll for half"
+
+    if (opponent_score>9):
+        if (score+opponent_score)%7==0:
+            if opponent_score//2-score<32 and opponent_score//2-score>28:
+                return 10
+            if opponent_score//2-score>25:
+                return 9
+            if opponent_score//2-score>22:
+                return 8
+            if opponent_score//2-score>19:
+                return 7
+            if opponent_score//2-score>16:
+                return 6
+            if opponent_score//2-score>13:
+                return 5
+            if opponent_score//2-score>10:
+                return 4
+            if opponent_score//2-score>7:
+                return 3
+            if opponent_score//2-score>4:
+                return 2
+            if opponent_score//2-score<5 and opponent_score//2-score>1:
+                return 1
+        else:
+            if opponent_score//2-score>37:
+                return 10
+            if opponent_score//2-score>33:
+                return 9
+            if opponent_score//2-score>29:
+                return 8
+            if opponent_score//2-score>25:
+                return 7
+            if opponent_score//2-score>21:
+                return 6
+            if opponent_score//2-score>17:
+                return 5
+            if opponent_score//2-score>13:
+                return 4
+            if opponent_score//2-score>9:
+                return 3
+            if opponent_score//2-score>5:
+                return 2
+            if opponent_score//2-score<7 and opponent_score//2-score>1:
+                return 1
+
+    "If I'm down alot I roll higher."
+
+    if (score+opponent_score)%7==0:
+        if score < opponent_score-40:
+            return 8
+        if score < opponent_score-30:
+            return 7
+        if score < opponent_score-22:
+            return 6 
+        if score < opponent_score-15:
+            return 5
+        return 3
+    else:
+        if score<opponent_score-80:
+            return 10
+        if opponent_score>93 and opponent_score-20>score:
+            return 8
+        if score<opponent_score-65:
+            return 9
+        if score<opponent_score-50:
+            return 8   
+        if score < opponent_score-35:
+            return 7
+        if score < opponent_score-20:
+            return 6
+        if score>=opponent_score:
+            return 5
+    return 5
